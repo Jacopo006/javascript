@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function calcolaesponente() 
+{
+	var base = parseInt(document.getElementById("base").value);
+    var esponente = parseInt(document.getElementById("esponente").value);
+    var risultato = 1;
+    for(let i = 0; i < esponente; i++)
+    {
+    	var risultato = risultato * base;
+    }
+    document.getElementById("demo").innerHTML = "Risultato: " + risultato;
+}
+
+</script>
+
+
+
+
+<h2> Ricevendo la base e l’esponente , calcolare il numero
+risultante solo tramite moltiplicazioni.</h2>
+
+<p>
+<label for="name">Inserisci la base </label>
+<input type="text" id="base" name="numero" size="13" />
+</p>
+
+<p>
+<label for="name">Inserisci  l'esponente</label>
+<input type="text" id="esponente" name="numero" size="9" />
+</p>
+
+
+
+
+
+<button onclick="calcolaesponente(); "> Esegui </button>
+
+<p id="demo" /p>
+
+</body>
+</html> 

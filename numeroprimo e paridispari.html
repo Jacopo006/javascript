@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function numero_primo() 
+{
+    var numero = parseInt(document.getElementById("numero").value);
+    var Div = 2;
+    var contaDivisori = 0;
+    
+    while (Div <= numero / 2 && contaDivisori < 2) 
+    {
+        if (numero % Div == 0) 
+        {
+            contaDivisori++;
+        }
+        Div++;
+    }
+    
+    if (contaDivisori == 1)
+       document.getElementById("demo1").innerHTML = "Il numero " + numero + " è un numero primo ";
+    else
+       document.getElementById("demo1").innerHTML = "Il numero " + numero + " non è un numero primo ";
+
+}
+
+function paridispari() 
+{
+    var numero = parseInt(document.getElementById("numero").value);
+    if (numero % 2 > 0)
+    {
+        document.getElementById("demo2").innerHTML = "il numero è dispari";
+    }
+    else
+    {
+        document.getElementById("demo2").innerHTML = "il numero è pari";
+    }
+}
+</script>
+
+<h2>Ricevuto un numero, utilizzando la funzione pari_dispari e la funzione numero_primo associate ad un pulsante, visualizzare se è pari o dispari e se è un numero primo.</h2>
+
+<p>
+<label for="name">Inserisci un numero</label>
+<input type="text" id="numero" name="numero" size="13" />
+</p>
+
+<button onclick="paridispari();"> Pari o Dispari </button>
+<button onclick="numero_primo();"> Verifica se è un numero primo </button>
+
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+</body>
+</html>

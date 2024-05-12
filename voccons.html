@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+function conta() {
+    var nome = document.getElementById("name").value;
+    var contaconsonanti = 0;
+    var contavocali = 0;
+
+    for (let i = 0; i < nome.length; i++) {
+        var y = i + 2;
+        var result = nome.substring(i, y);
+        if (result === "a" || result === "e" || result === "i" || result === "o" || result === "u") 
+        {
+            contavocali++;
+        } else {
+            contaconsonanti++;
+        }
+    }
+    document.getElementById("demo").innerHTML = "Il numero di consonanti sono: " + contaconsonanti + ". Il numero delle vocali sono: " + contavocali;
+}
+</script>
+
+<h1>Ricevuto il proprio nome, cliccando su un pulsante (e
+utilizzando i metodi length e substring) visualizzare quante vocali e
+consonanti sono contenute.</h1>
+
+<p>
+<label for="nome">Inserisci un nome </label>
+<input type="text" id="name" name="numero" size="9" />
+</p>
+<button onclick="conta();"> Esegui </button>
+
+<p id="demo"></p>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function verifica()
+{
+var numero= parseInt(document.getElementById("numero").value);
+if ( (numero % 2) > 0)
+{
+	document.getElementById("demo").innerHTML = "il numero è dispari";
+}
+else
+{
+	document.getElementById("demo").innerHTML = "il numero è pari";
+}
+}
+</script>
+
+
+
+<h2>Ricevere un numero e visualizzare se il numero è pari o
+dispari.</h2>
+
+<p>
+<label for="name1">Inserisci un numero</label>
+<input type="text" id="numero" name="numero" size="9" />
+</p>
+
+<button onclick="verifica(); "> 
+Verifica se il numero è pari o dispari
+</button>
+
+<p id="demo"></p>
+
+</body>
+</html> 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function eqsecondogrado() {
+    var a = parseInt(document.getElementById("coefficente1").value);
+    var b = parseInt(document.getElementById("coefficente2").value);
+    var c = parseInt(document.getElementById("coefficente3").value);
+    var discriminante = Math.pow(b, 2) - 4 * a * c;
+
+    if (discriminante >= 0) 
+    {
+        var risultato1 = (-b + Math.sqrt(discriminante)) / (2 * a);
+        var risultato2 = (-b - Math.sqrt(discriminante)) / (2 * a);
+
+        document.getElementById("demo").innerHTML = "Risultato 1: " + risultato1 + "   ,     Risultato 2: " + risultato2;
+    }
+    
+    else 
+    {
+        document.getElementById("demo").innerHTML = "La radice quadrata di un discriminante negativo non è definita nell'ambito dei numeri reali.";
+    }
+}
+
+</script>
+
+
+
+<h2>Ricevendo i 3 coefficienti dell’equaz. di 2o grado,
+visualizzare le soluzioni.</h2>
+
+<p>
+<label for="name">Inserisci il primo coefficente</label>
+<input type="text" id="coefficente1" name="numero" size="9" />
+</p>
+
+<p>
+<label for="name">Inserisci  il secondo coefficente</label>
+<input type="text" id="coefficente2" name="numero" size="9" />
+</p>
+
+<p>
+<label for="name">Inserisci  il terzo coefficente</label>
+<input type="text" id="coefficente3" name="numero" size="9" />
+</p>
+
+
+
+<button onclick="eqsecondogrado(); "> Esegui </button>
+
+<p id="demo" /p>
+
+</body>
+</html> 

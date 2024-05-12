@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function calcolaeta() 
+{
+	
+}
+
+</script>
+
+
+
+<h2> Inserendo il proprio anno, mese, giorno di nascita
+calcolare l’età.</h2>
+
+<p>
+<label for="name">Inserisci l'anno </label>
+<input type="text" id="anno" name="numero" size="13" />
+</p>
+
+<p>
+<label for="name">Inserisci il mese</label>
+<input type="text" id="mese" name="numero" size="9" />
+</p>
+
+<p>
+<label for="name">Inserisci il giorno</label>
+<input type="text" id="giorno" name="numero" size="9" />
+</p>
+
+
+<button onclick="; "> Calcola età </button>
+
+<p id="demo" /p>
+
+</body>
+</html> 

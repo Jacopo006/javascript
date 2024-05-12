@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantacalcio Classifiche</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .classifica {
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
+
+        .classifica h2 {
+            margin-bottom: 5px;
+        }
+
+        .team {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+        }
+
+        .team:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container input {
+            width: calc(50% - 5px);
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Classifica Fantacalcio</h1>
+
+    <div class="form-container">
+        <input type="number" id="giornataToDelete" placeholder="Giornata da eliminare">
+        <button onclick="eliminaGiornata()">Elimina Giornata</button>
+    </div>
+
+    <div class="form-container">
+        <input type="number" id="giornataToDeleteTeam" placeholder="Giornata da cui eliminare squadra">
+        <input type="text" id="squadraToDelete" placeholder="Squadra da eliminare">
+        <button onclick="eliminaSquadra()">Elimina Squadra</button>
+    </div>
+
+    <div class="form-container">
+        <input type="text" id="squadraInput" placeholder="Nome della squadra">
+        <input type="number" id="puntiInput" placeholder="Punteggio">
+        <input type="number" id="giornataInput" placeholder="Numero giornata">
+        <button onclick="aggiungiPunteggio()">Aggiungi Punteggio</button>
+    </div>
+
+    <div class="classifica-generale">
+        <!-- La classifica generale sarà generata dinamicamente qui -->
+    </div>
+
+    <div class="classifiche">
+        <!-- Le classifiche delle giornate saranno generate dinamicamente qui -->
+    </div>
+
+    <script>
+        // Struttura dati per le classifiche di ogni giornata
+        const classificheGiornata = [];
+
+        const classificheContainer = document.querySelector('.classifiche');
+        const classificaGeneraleContainer = document.querySelector('.classifica-generale');
+
+        function mostraClassifica(giornata) {
+            const classificaGiornata = classificheGiornata[giornata - 1];
+
+            // Ordina la classifica della giornata in base al punteggio (dal più alto al più basso)
+            if (classificaGiornata) {
+                classificaGiornata.sort((a, b) => b.punti - a.punti);
+
+                const classificaGiornataHTML = document.createElement('div');
+                classificaGiornataHTML.classList.add('classifica');
+                classificaGiornataHTML.innerHTML = `<h2>Giornata ${giornata}</h2>`;
+
+                classificaGiornata.forEach((team, index) => {
+                    const teamElement = document.createElement('div');
+                    teamElement.classList.add('team');
+                    teamElement.innerHTML = `<span>${index + 1}. ${team.squadra}</span><span>${team.punti} punti</span>`;
+                    classificaGiornataHTML.appendChild(teamElement);
+                });
+
+                // Rimuove la classifica della giornata precedente (se presente) e aggiunge quella attuale
+                const existingClassifica = classificheContainer.querySelector(`.classifica[data-giornata="${giornata}"]`);
+                if (existingClassifica) {
+                    classificheContainer.replaceChild(classificaGiornataHTML, existingClassifica);
+                } else {
+                    classificaGiornataHTML.setAttribute('data-giornata', giornata);
+                    classificheContainer.appendChild(classificaGiornataHTML);
+                }
+            }
+        }
+
+        function aggiungiPunteggio() {
+            const squadraInput = document.getElementById('squadraInput').value;
+            const puntiInput = parseInt(document.getElementById('puntiInput').value);
+            const giornataInput = parseInt(document.getElementById('giornataInput').value);
+
+            if (giornataInput < 1 || giornataInput > 38) {
+                alert('Il numero della giornata deve essere compreso tra 1 e 38.');
+                return;
+            }
+
+            // Crea la giornata se non esiste già
+            if (!classificheGiornata[giornataInput - 1]) {
+                classificheGiornata[giornataInput - 1] = [];
+                mostraClassifica(giornataInput);
+            }
+
+            const squadraEsistente = classificheGiornata[giornataInput - 1].find(team => team.squadra === squadraInput);
+
+            if (squadraEsistente) {
+                // Se la squadra esiste già, aggiorna semplicemente i punteggi esistenti
+                squadraEsistente.punti += puntiInput;
+            } else {
+                // Altrimenti, aggiungi una nuova voce alla classifica della giornata
+                classificheGiornata[giornataInput - 1].push({
+                    squadra: squadraInput,
+                    punti: puntiInput
+                });
+
+                // Aggiorna la visualizzazione della classifica della giornata corrente
+                mostraClassifica(giornataInput);
+            }
+
+            // Aggiorna la classifica generale
+            mostraClassificaGenerale();
+        }
+
+        function mostraClassificaGenerale() {
+            // Creazione di una mappa per tenere traccia dei punteggi totali delle squadre
+            const punteggiTotali = new Map();
+
+            // Calcolo dei punteggi totali delle squadre dalla somma dei punteggi di tutte le giornate
+            classificheGiornata.forEach(classificaGiornata => {
+                if (classificaGiornata) {
+                    classificaGiornata.forEach(team => {
+                        if (punteggiTotali.has(team.squadra)) {
+                            punteggiTotali.set(team.squadra, punteggiTotali.get(team.squadra) + team.punti);
+                        } else {
+                            punteggiTotali.set(team.squadra, team.punti);
+                        }
+                    });
+                }
+            });
+
+            // Ordinamento delle squadre in base al punteggio totale (dal più alto al più basso)
+            const squadreOrdinate = Array.from(punteggiTotali.entries()).sort((a, b) => b[1] - a[1]);
+
+            // Creazione della classifica generale HTML
+            const classificaGeneraleHTML = document.createElement('div');
+            classificaGeneraleHTML.classList.add('classifica');
+            classificaGeneraleHTML.innerHTML = '<h2>Classifica Generale</h2>';
+
+            squadreOrdinate.forEach((entry, index) => {
+                const teamElement = document.createElement('div');
+                teamElement.classList.add('team');
+                teamElement.innerHTML = `<span>${index + 1}. ${entry[0]}</span><span>${entry[1]} punti</span>`;
+                classificaGeneraleHTML.appendChild(teamElement);
+            });
+
+            // Rimuove la classifica generale precedente (se presente) e aggiunge quella attuale
+            classificaGeneraleContainer.innerHTML = '';
+            classificaGeneraleContainer.appendChild(classificaGeneraleHTML);
+        }
+
+               function eliminaGiornata() {
+    const giornataToDelete = parseInt(document.getElementById('giornataToDelete').value);
+    if (giornataToDelete < 1 || giornataToDelete > 38) {
+        alert('Il numero della giornata deve essere compreso tra 1 e 38.');
+        return;
+    }
+
+    // Rimuove la visualizzazione della classifica della giornata selezionata
+    const classificaToRemove = document.getElementById(`classifica-giornata-${giornataToDelete}`);
+    if (classificaToRemove) {
+        classificaToRemove.remove();
+
+        // Rimuove anche l'intestazione corrispondente
+        const existingHeader = document.querySelector(`.classifica h2[data-giornata="${giornataToDelete}"]`);
+        if (existingHeader) {
+            existingHeader.remove();
+        }
+
+        classificheGiornata[giornataToDelete - 1] = null; // Rimuove la classifica della giornata
+    }
+
+    // Aggiorna solo la classifica generale
+    mostraClassificaGenerale();
+}
+
+
+
+        function eliminaSquadra() {
+            const giornataToDelete = parseInt(document.getElementById('giornataToDeleteTeam').value);
+            const squadraToDelete = document.getElementById('squadraToDelete').value;
+
+            if (giornataToDelete < 1 || giornataToDelete > 38) {
+                alert('Il numero della giornata deve essere compreso tra 1 e 38.');
+                return;
+            }
+
+            // Rimuove la squadra dalla giornata selezionata
+            const index = classificheGiornata[giornataToDelete - 1].findIndex(team => team.squadra === squadraToDelete);
+            if (index !== -1) {
+                const deletedTeam = classificheGiornata[giornataToDelete - 1].splice(index, 1)[0];
+                
+                // Rimuove i punti della squadra eliminata dalla classifica generale
+                const squadraGeneraleIndex = classificheGiornata.flatMap(classifica => classifica).findIndex(team => team.squadra === squadraToDelete);
+                if (squadraGeneraleIndex !== -1) {
+                    const squadraGenerale = classificheGiornata.flatMap(classifica => classifica)[squadraGeneraleIndex];
+                    const puntiSquadraGenerale = squadraGenerale.punti;
+                    const squadraGeneraleNome = squadraGenerale.squadra;
+                    const puntiTotaliSquadraGenerale = Array.from(punteggiTotali).find(el => el[0] === squadraGeneraleNome)[1];
+                    Array.from(punteggiTotali).find(el => el[0] === squadraGeneraleNome)[1] = puntiTotaliSquadraGenerale - puntiSquadraGenerale;
+                }
+
+                // Aggiorna la visualizzazione delle classifiche
+                mostraClassifica(giornataToDelete);
+                mostraClassificaGenerale();
+            } else {
+                alert('La squadra selezionata non è presente nella giornata specificata.');
+            }
+        }
+
+        // Inizializza la classifica generale all'avvio
+        mostraClassificaGenerale();
+    </script>
+</body>
+</html>
+
