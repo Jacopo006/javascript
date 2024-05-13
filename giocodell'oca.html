@@ -6,45 +6,24 @@
         body {
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             font-family: Arial, sans-serif;
-            position: relative;
-        }
-
-        #sfondo-oca, #sfondo-tabellone {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: -1; /* Imposta le immagini di sfondo dietro al contenuto */
-        }
-
-        #sfondo-oca {
-            background-image: url('oca.jpg');
-        }
-
-        #sfondo-tabellone {
-            background-image: url('tuo_tabellone.jpg');
         }
 
         .tabellone-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-top: 200px; /* Spostamento ulteriore in basso */
             overflow-x: auto;
-            position: relative;
-            z-index: 1;
+            max-height: 70vh;
         }
 
         .tabellone {
             display: flex;
             flex-wrap: wrap;
             max-width: 600px;
-            background-color: rgba(255, 255, 255, 0.5);
-            padding: 10px;
-            border-radius: 10px;
         }
 
         .fila {
@@ -63,6 +42,112 @@
             position: relative;
         }
 
+        .casella[data-numero="1"],
+        .casella[data-numero="2"],
+        .casella[data-numero="3"],
+        .casella[data-numero="4"],
+        .casella[data-numero="5"],
+        .casella[data-numero="6"],
+        .casella[data-numero="7"],
+        .casella[data-numero="8"],
+        .casella[data-numero="9"],
+        .casella[data-numero="10"],
+        .casella[data-numero="11"],
+        .casella[data-numero="12"],
+        .casella[data-numero="13"],
+        .casella[data-numero="14"],
+        .casella[data-numero="15"],
+        .casella[data-numero="16"],
+        .casella[data-numero="17"],
+        .casella[data-numero="18"],
+        .casella[data-numero="19"],
+        .casella[data-numero="20"],
+        .casella[data-numero="21"],
+        .casella[data-numero="22"],
+        .casella[data-numero="23"],
+        .casella[data-numero="24"],
+        .casella[data-numero="25"],
+        .casella[data-numero="26"],
+        .casella[data-numero="27"],
+        .casella[data-numero="28"],
+        .casella[data-numero="29"],
+        .casella[data-numero="30"],
+        .casella[data-numero="31"],
+        .casella[data-numero="32"],
+        .casella[data-numero="33"],
+        .casella[data-numero="34"],
+        .casella[data-numero="35"],
+        .casella[data-numero="36"],
+        .casella[data-numero="37"],
+        .casella[data-numero="38"],
+        .casella[data-numero="39"],
+        .casella[data-numero="40"],
+        .casella[data-numero="41"],
+        .casella[data-numero="42"],
+        .casella[data-numero="43"],
+        .casella[data-numero="44"],
+        .casella[data-numero="45"],
+        .casella[data-numero="46"],
+        .casella[data-numero="47"],
+        .casella[data-numero="48"],
+        .casella[data-numero="49"],
+        .casella[data-numero="50"],
+        .casella[data-numero="51"],
+        .casella[data-numero="52"],
+        .casella[data-numero="53"],
+        .casella[data-numero="54"],
+        .casella[data-numero="55"],
+        .casella[data-numero="56"],
+        .casella[data-numero="57"],
+        .casella[data-numero="58"],
+        .casella[data-numero="59"],
+        .casella[data-numero="60"],
+        .casella[data-numero="61"],
+        .casella[data-numero="62"],
+        .casella[data-numero="63"],
+        .casella[data-numero="64"],
+        .casella[data-numero="65"],
+        .casella[data-numero="66"],
+        .casella[data-numero="67"],
+        .casella[data-numero="68"],
+        .casella[data-numero="69"],
+        .casella[data-numero="70"],
+        .casella[data-numero="71"],
+        .casella[data-numero="72"],
+        .casella[data-numero="73"],
+        .casella[data-numero="74"],
+        .casella[data-numero="75"],
+        .casella[data-numero="76"],
+        .casella[data-numero="77"],
+        .casella[data-numero="78"],
+        .casella[data-numero="79"],
+        .casella[data-numero="80"],
+        .casella[data-numero="81"],
+        .casella[data-numero="82"],
+        .casella[data-numero="83"],
+        .casella[data-numero="84"],
+        .casella[data-numero="85"],
+        .casella[data-numero="86"],
+        .casella[data-numero="87"],
+        .casella[data-numero="88"],
+        .casella[data-numero="89"],
+        .casella[data-numero="90"],
+        .casella[data-numero="91"],
+        .casella[data-numero="92"],
+        .casella[data-numero="93"],
+        .casella[data-numero="94"],
+        .casella[data-numero="95"],
+        .casella[data-numero="96"],
+        .casella[data-numero="97"],
+        .casella[data-numero="98"],
+        .casella[data-numero="99"],
+        .casella[data-numero="100"] {
+            background-image: url("oca.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
         .giocatore {
             font-size: 1.5em;
             position: absolute;
@@ -71,17 +156,14 @@
             transform: translate(-50%, -50%);
         }
 
-        #bottone-giocatore {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 2;
-        }
-
         button {
             margin: 5px;
             padding: 10px 20px;
             font-size: 16px;
+        }
+
+        #bottone-giocatore {
+            display: none;
         }
 
         /* Stili per il modale */
@@ -109,16 +191,15 @@
     </style>
 </head>
 
-<body>
-    <!-- Immagini di sfondo -->
-    <div id="sfondo-oca"></div>
-    <div id="sfondo-tabellone"></div>
 
+
+<body class="sfondo">
+    <button onclick="chiediNumeroGiocatori()">Inizia il Gioco</button>
     <div class="tabellone-container">
-        <div class="tabellone" id="tabellone"></div>
+        <div id="tabellone"></div>
     </div>
     <div id="bottone-giocatore">
-        <button onclick="chiediNumeroGiocatori()">Inizia il Gioco</button>
+        <button onclick="muoviGiocatore()">Prossimo Giocatore</button>
     </div>
 
     <!-- Modale per il messaggio di vittoria -->
@@ -138,11 +219,13 @@
         function chiediNumeroGiocatori() {
             numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):");
             if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) {
-                alert("Inserisci un numero valido di giocatori!");
+                alert("Inserisci un nmero valido di giocatori!");
                 chiediNumeroGiocatori();
             } else {
-                document.getElementById('bottone-giocatore').style.display = 'none';
+                document.querySelector('button').style.display = 'none';
+                //posizioneGiocatori = new Array(numGiocatori).fill(0);
                 generaTabellone();
+                document.getElementById('bottone-giocatore').style.display = 'block';
             }
             for (var a = 0; a < numGiocatori; a++) {
                 posizioneGiocatori.push(a);
@@ -162,26 +245,38 @@
             disegnaTabellone();
         }
 
-        function muoviGiocatore() {
+        function muoviGiocatore() 
+        {
+            // background-image: url("oca.jpg");
+            // height: 100%; 
+            // background-position: center;
+            // background-repeat: no-repeat;
+            // background-size: cover;
+
+
+
             var dado = Math.floor(Math.random() * 6) + 1;
+
             alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado);
             posizioneGiocatori[giocatoreCorrente] += dado;
             if (posizioneGiocatori[giocatoreCorrente] >= 100) {
                 var messaggioVittoria = document.getElementById("messaggioVittoria");
-                messaggioVittoria.textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
+                messaggioVittoria.textContent = "Il gicatore " + (giocatoreCorrente + 1) + " ha vinto!";
                 apriModale();
                 posizioneGiocatori[giocatoreCorrente] = 100;
+
             }
             disegnaTabellone();
             giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori;
+
         }
 
         function disegnaTabellone() {
             var caselle = document.querySelectorAll('.casella');
             caselle.forEach(casella => {
                 var numeroCasella = casella.getAttribute('data-numero');
-                casella.innerHTML = numeroCasella;
-                var pedineHTML = "";
+                casella.innerHTML = numeroCasella; // Imposta il numero della casella
+                var pedineHTML = ""; // Stringa HTML per le pedine
                 for (var k = 0; k < numGiocatori; k++) {
                     var posizione = posizioneGiocatori[k];
                     if (posizione == numeroCasella) {
@@ -196,11 +291,12 @@
                         } else if (k === 3) {
                             pedina.innerHTML = '&#x265e;';
                         }
-                        pedina.style.color = pedineGiocatori[k];
+                        pedina.style.color = pedineGiocatori[k]; // Usa il colore della lista pedineGiocatori per la pedina
                         casella.appendChild(pedina);
                         break;
                     }
                 }
+
             });
         }
 
@@ -217,4 +313,3 @@
 </body>
 
 </html>
-
