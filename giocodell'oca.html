@@ -17,7 +17,7 @@
         {
             display: flex;
             justify-content: center;
-            margin-top: 200px; /* Spostamento ulteriore in basso */
+            margin-top: 150px; /* Spostamento ulteriore in basso */
             overflow-x: auto;
             max-height: 70vh;
             background-image: url("oca2.jpg");
@@ -123,8 +123,7 @@
         var giocatoreCorrente = 0;
         var pedineGiocatori = ["black", "red", "blue", "purple"]; // Lista di colori per le pedine dei giocatori
 
-        function chiediNumeroGiocatori() 
-        {
+        function chiediNumeroGiocatori() {
             numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):");
             if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) 
             {
@@ -144,17 +143,13 @@
             }
         }
 
-        function generaTabellone() 
-        {
+        function generaTabellone() {
             var tabelloneHTML = "";
-            for (var i = 0; i < 100; i++) 
-            {
-                if (i % 10 === 0 && i !== 0) 
-                {
+            for (var i = 0; i < 100; i++) {
+                if (i % 10 === 0 && i !== 0) {
                     tabelloneHTML += "</div><div class='fila'>";
                 }
                 tabelloneHTML += "<div class='casella' data-numero='" + (i + 1) + "'></div>";
-                //tabelloneHTML += "<div class='casella' data-numero='"  + "'></div>";
             }
             document.getElementById("tabellone").innerHTML = "<div class='fila'>" + tabelloneHTML + "</div>";
             disegnaTabellone();
@@ -162,24 +157,27 @@
 
         function muoviGiocatore() 
         {
+            // background-image: url("oca.jpg");
+            // height: 100%; 
+            // background-position: center;
+            // background-repeat: no-repeat;
+            // background-size: cover;
+
+
+
             var dado = Math.floor(Math.random() * 6) + 1;
             alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado);
             posizioneGiocatori[giocatoreCorrente] += dado;
-            if (posizioneGiocatori[giocatoreCorrente] >= 100) 
-            {
+            if (posizioneGiocatori[giocatoreCorrente] >= 100) {
                 var messaggioVittoria = document.getElementById("messaggioVittoria");
-                messaggioVittoria.textContent = "Il gicatore " + (giocatoreCorrente + 1) + " ha vinto!";
+                messaggioVittoria.textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
                 apriModale();
                 posizioneGiocatori[giocatoreCorrente] = 100;
-
             }
-            disegnaTabellone();
             giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori;
-
         }
 
-        function disegnaTabellone() 
-        {
+        function disegnaTabellone() {
             var caselle = document.querySelectorAll('.casella');
             caselle.forEach(casella => {
                 var numeroCasella = casella.getAttribute('data-numero');
