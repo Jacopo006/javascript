@@ -3,7 +3,8 @@
 
 <head>
     <style>
-        body {
+        body 
+        {
             margin: 0;
             padding: 0;
             display: flex;
@@ -12,28 +13,35 @@
             font-family: Arial, sans-serif;
         }
 
-        .tabellone-container {
+        .tabellone-container 
+        {
             display: flex;
             justify-content: center;
             margin-top: 200px; /* Spostamento ulteriore in basso */
             overflow-x: auto;
             max-height: 70vh;
+            background-image: url("oca2.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
-        .tabellone {
+        .tabellone 
+        {
             display: flex;
             flex-wrap: wrap;
             max-width: 600px;
         }
 
-        .fila {
+        .fila 
+        {
             display: flex;
         }
 
-        .casella {
-            width: 50px;
-            height: 50px;
-            border: 1px solid black;
+        .casella 
+        {
+            width: 60px;
+            height: 60px;
             box-sizing: border-box;
             display: flex;
             justify-content: center;
@@ -42,113 +50,8 @@
             position: relative;
         }
 
-        .casella[data-numero="1"],
-        .casella[data-numero="2"],
-        .casella[data-numero="3"],
-        .casella[data-numero="4"],
-        .casella[data-numero="5"],
-        .casella[data-numero="6"],
-        .casella[data-numero="7"],
-        .casella[data-numero="8"],
-        .casella[data-numero="9"],
-        .casella[data-numero="10"],
-        .casella[data-numero="11"],
-        .casella[data-numero="12"],
-        .casella[data-numero="13"],
-        .casella[data-numero="14"],
-        .casella[data-numero="15"],
-        .casella[data-numero="16"],
-        .casella[data-numero="17"],
-        .casella[data-numero="18"],
-        .casella[data-numero="19"],
-        .casella[data-numero="20"],
-        .casella[data-numero="21"],
-        .casella[data-numero="22"],
-        .casella[data-numero="23"],
-        .casella[data-numero="24"],
-        .casella[data-numero="25"],
-        .casella[data-numero="26"],
-        .casella[data-numero="27"],
-        .casella[data-numero="28"],
-        .casella[data-numero="29"],
-        .casella[data-numero="30"],
-        .casella[data-numero="31"],
-        .casella[data-numero="32"],
-        .casella[data-numero="33"],
-        .casella[data-numero="34"],
-        .casella[data-numero="35"],
-        .casella[data-numero="36"],
-        .casella[data-numero="37"],
-        .casella[data-numero="38"],
-        .casella[data-numero="39"],
-        .casella[data-numero="40"],
-        .casella[data-numero="41"],
-        .casella[data-numero="42"],
-        .casella[data-numero="43"],
-        .casella[data-numero="44"],
-        .casella[data-numero="45"],
-        .casella[data-numero="46"],
-        .casella[data-numero="47"],
-        .casella[data-numero="48"],
-        .casella[data-numero="49"],
-        .casella[data-numero="50"],
-        .casella[data-numero="51"],
-        .casella[data-numero="52"],
-        .casella[data-numero="53"],
-        .casella[data-numero="54"],
-        .casella[data-numero="55"],
-        .casella[data-numero="56"],
-        .casella[data-numero="57"],
-        .casella[data-numero="58"],
-        .casella[data-numero="59"],
-        .casella[data-numero="60"],
-        .casella[data-numero="61"],
-        .casella[data-numero="62"],
-        .casella[data-numero="63"],
-        .casella[data-numero="64"],
-        .casella[data-numero="65"],
-        .casella[data-numero="66"],
-        .casella[data-numero="67"],
-        .casella[data-numero="68"],
-        .casella[data-numero="69"],
-        .casella[data-numero="70"],
-        .casella[data-numero="71"],
-        .casella[data-numero="72"],
-        .casella[data-numero="73"],
-        .casella[data-numero="74"],
-        .casella[data-numero="75"],
-        .casella[data-numero="76"],
-        .casella[data-numero="77"],
-        .casella[data-numero="78"],
-        .casella[data-numero="79"],
-        .casella[data-numero="80"],
-        .casella[data-numero="81"],
-        .casella[data-numero="82"],
-        .casella[data-numero="83"],
-        .casella[data-numero="84"],
-        .casella[data-numero="85"],
-        .casella[data-numero="86"],
-        .casella[data-numero="87"],
-        .casella[data-numero="88"],
-        .casella[data-numero="89"],
-        .casella[data-numero="90"],
-        .casella[data-numero="91"],
-        .casella[data-numero="92"],
-        .casella[data-numero="93"],
-        .casella[data-numero="94"],
-        .casella[data-numero="95"],
-        .casella[data-numero="96"],
-        .casella[data-numero="97"],
-        .casella[data-numero="98"],
-        .casella[data-numero="99"],
-        .casella[data-numero="100"] {
-            background-image: url("oca.jpg");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        .giocatore {
+        .giocatore
+        {
             font-size: 1.5em;
             position: absolute;
             top: 50%;
@@ -156,18 +59,21 @@
             transform: translate(-50%, -50%);
         }
 
-        button {
+        button 
+        {
             margin: 5px;
             padding: 10px 20px;
             font-size: 16px;
         }
 
-        #bottone-giocatore {
+        #bottone-giocatore 
+        {
             display: none;
         }
 
         /* Stili per il modale */
-        .modal {
+        .modal 
+        {
             display: none;
             position: fixed;
             top: 0;
@@ -178,7 +84,8 @@
             z-index: 9999;
         }
 
-        .modal-content {
+        .modal-content 
+        {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -190,8 +97,6 @@
 
     </style>
 </head>
-
-
 
 <body class="sfondo">
     <button onclick="chiediNumeroGiocatori()">Inizia il Gioco</button>
@@ -216,30 +121,38 @@
         var giocatoreCorrente = 0;
         var pedineGiocatori = ["black", "red", "blue", "purple"]; // Lista di colori per le pedine dei giocatori
 
-        function chiediNumeroGiocatori() {
+        function chiediNumeroGiocatori() 
+        {
             numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):");
-            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) {
+            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) 
+            {
                 alert("Inserisci un nmero valido di giocatori!");
                 chiediNumeroGiocatori();
-            } else {
+            } 
+            else 
+            {
                 document.querySelector('button').style.display = 'none';
-                //posizioneGiocatori = new Array(numGiocatori).fill(0);
                 generaTabellone();
                 document.getElementById('bottone-giocatore').style.display = 'block';
             }
-            for (var a = 0; a < numGiocatori; a++) {
+            for (var a = 0; a < numGiocatori; a++) 
+            {
                 posizioneGiocatori.push(a);
                 posizioneGiocatori[a] = 0;
             }
         }
 
-        function generaTabellone() {
+        function generaTabellone() 
+        {
             var tabelloneHTML = "";
-            for (var i = 0; i < 100; i++) {
-                if (i % 10 === 0 && i !== 0) {
+            for (var i = 0; i < 100; i++) 
+            {
+                if (i % 10 === 0 && i !== 0) 
+                {
                     tabelloneHTML += "</div><div class='fila'>";
                 }
                 tabelloneHTML += "<div class='casella' data-numero='" + (i + 1) + "'></div>";
+                //tabelloneHTML += "<div class='casella' data-numero='"  + "'></div>";
             }
             document.getElementById("tabellone").innerHTML = "<div class='fila'>" + tabelloneHTML + "</div>";
             disegnaTabellone();
@@ -247,19 +160,11 @@
 
         function muoviGiocatore() 
         {
-            // background-image: url("oca.jpg");
-            // height: 100%; 
-            // background-position: center;
-            // background-repeat: no-repeat;
-            // background-size: cover;
-
-
-
             var dado = Math.floor(Math.random() * 6) + 1;
-
             alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado);
             posizioneGiocatori[giocatoreCorrente] += dado;
-            if (posizioneGiocatori[giocatoreCorrente] >= 100) {
+            if (posizioneGiocatori[giocatoreCorrente] >= 100) 
+            {
                 var messaggioVittoria = document.getElementById("messaggioVittoria");
                 messaggioVittoria.textContent = "Il gicatore " + (giocatoreCorrente + 1) + " ha vinto!";
                 apriModale();
@@ -279,16 +184,21 @@
                 var pedineHTML = ""; // Stringa HTML per le pedine
                 for (var k = 0; k < numGiocatori; k++) {
                     var posizione = posizioneGiocatori[k];
-                    if (posizione == numeroCasella) {
+                    if (posizione == numeroCasella) 
+                    {
                         var pedina = document.createElement('div');
                         pedina.classList.add('giocatore');
-                        if (k === 0) {
+                        if (k === 0) 
+                        {
                             pedina.innerHTML = '&#x265a;';
-                        } else if (k === 1) {
+                        } else if (k === 1) 
+                        {
                             pedina.innerHTML = '&#x265b;';
-                        } else if (k === 2) {
+                        } else if (k === 2) 
+                        {
                             pedina.innerHTML = '&#x265c;';
-                        } else if (k === 3) {
+                        } else if (k === 3) 
+                        {
                             pedina.innerHTML = '&#x265e;';
                         }
                         pedina.style.color = pedineGiocatori[k]; // Usa il colore della lista pedineGiocatori per la pedina
@@ -302,10 +212,12 @@
 
         // Funzioni per il modale
         var modale = document.getElementById("myModal");
-        function apriModale() {
+        function apriModale() 
+        {
             modale.style.display = "block";
         }
-        function chiudiModale() {
+        function chiudiModale() 
+        {
             modale.style.display = "none";
         }
 
