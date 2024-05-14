@@ -46,13 +46,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5em;
+            font-size: 0.0000000001em;
             position: relative;
         }
 
         .giocatore
         {
-            font-size: 1.5em;
+            font-size: 27000000000em;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -128,8 +128,7 @@
             {
                 alert("Inserisci un nmero valido di giocatori!");
                 chiediNumeroGiocatori();
-            } 
-            else 
+            } else 
             {
                 document.querySelector('button').style.display = 'none';
                 generaTabellone();
@@ -176,13 +175,15 @@
 
         }
 
-        function disegnaTabellone() {
+        function disegnaTabellone() 
+        {
             var caselle = document.querySelectorAll('.casella');
             caselle.forEach(casella => {
                 var numeroCasella = casella.getAttribute('data-numero');
                 casella.innerHTML = numeroCasella; // Imposta il numero della casella
                 var pedineHTML = ""; // Stringa HTML per le pedine
-                for (var k = 0; k < numGiocatori; k++) {
+                for (var k = 0; k < numGiocatori; k++) 
+                {
                     var posizione = posizioneGiocatori[k];
                     if (posizione == numeroCasella) 
                     {
