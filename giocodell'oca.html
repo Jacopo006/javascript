@@ -3,199 +3,228 @@
 
 <head>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, sans-serif;
+        body 
+        {
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-family: Arial, sans-serif; 
         }
 
-        .tabellone-container {
+        .tabellone-container 
+        {
             display: flex;
+            justify-content: center; 
+            margin-top: 150px; 
+            overflow-x: auto; 
+            background-image: url("oca2.jpg"); 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-size: cover; 
+            visibility: hidden; 
+        }
+
+        .tabellone-container.visibile 
+        {
+            visibility: visible; /* Mostra il tabellone quando il gioco inizia */
+        }
+
+        .tabellone 
+        {
+            display: flex; 
+            flex-wrap: wrap; 
+            max-width: 600px; 
+        }
+
+        .fila 
+        {
+            display: flex; 
+            width: 100%; 
+        }
+
+        .fila.reversed 
+        {
+            flex-direction: row-reverse; /* Inverte la direzione della riga */
+        }
+
+        .casella 
+        {
+            width: 60px; /* Larghezza di ogni casella */
+            height: 60px; /* Altezza di ogni casella */
+            box-sizing: border-box; 
+            display: flex; 
             justify-content: center;
-            margin-top: 150px;
-            overflow-x: auto;
-            max-height: 70vh;
-            background-image: url("oca2.jpg");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+            align-items: center; 
+            font-size: 0.00001px; /* Dimensione del font praticamente invisibile */
+            position: relative; /* Posizione relativa per elementi assoluti */
+            border: none; /* Rimuove il bordo */
         }
 
-        .tabellone {
-            display: flex;
-            flex-wrap: wrap;
-            max-width: 600px;
+        .giocatore 
+        {
+            font-size: 24px; /* Dimensione del font per i giocatori */
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
         }
 
-        .fila {
-            display: flex;
-            width: 100%;
+        button 
+        {
+            margin: 5px; 
+            padding: 10px 20px; 
+            font-size: 16px; 
         }
 
-        .fila.reversed {
-            flex-direction: row-reverse;
-        }
-
-        .casella {
-            width: 60px;
-            height: 60px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 14px;
-            position: relative;
-            border: 1px solid #000; /* Aggiungi un bordo per vedere meglio le caselle */
-        }
-
-        .giocatore {
-            font-size: 24px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        button {
-            margin: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-        #bottone-giocatore {
+        #bottone-giocatore 
+        {
             display: none;
         }
 
-        /* Stili per il modale */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
+        .modal 
+        {
+            display: none; /* Nasconde il modale all'inizio */
+            position: fixed; /* Posizione fissa */
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 9999; /* Porta il modale in primo piano */
         }
 
-        .modal-content {
+        .modal-content 
+        {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; 
+            left: 50%; 
             transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
+            background-color: white; 
+            padding: 20px; 
+            border-radius: 10px; /* Angoli arrotondati */
         }
-
     </style>
 </head>
 
 <body class="sfondo">
-    <button onclick="chiediNumeroGiocatori()">Inizia il Gioco</button>
+    <button onclick="chiediNumeroGiocatori()">Inizia il Gioco</button> <!-- Bottone per iniziare il gioco -->
     <div class="tabellone-container">
-        <div id="tabellone"></div>
+        <div id="tabellone"></div> <!-- Contenitore per il tabellone -->
     </div>
     <div id="bottone-giocatore">
-        <button onclick="muoviGiocatore()">Prossimo Giocatore</button>
+        <button onclick="muoviGiocatore()">Prossimo Giocatore</button> <!-- Bottone per muovere il giocatore -->
     </div>
 
     <!-- Modale per il messaggio di vittoria -->
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <h2 id="messaggioVittoria"></h2>
-            <button onclick="chiudiModale()">Chiudi</button>
+            <h2 id="messaggioVittoria"></h2> <!-- Messaggio di vittoria -->
+            <button onclick="chiudiModale()">Chiudi</button> <!-- Bottone per chiudere il modale -->
         </div>
     </div>
 
     <script>
-        var numGiocatori = 0;
-        var posizioneGiocatori = [];
-        var giocatoreCorrente = 0;
-        var pedineGiocatori = ["black", "red", "blue", "purple"];
+        var numGiocatori = 0; /* Numero di giocatori */
+        var posizioneGiocatori = []; /* Posizioni dei giocatori */
+        var giocatoreCorrente = 0; /* Indice del giocatore corrente */
+        var pedineGiocatori = ["black", "red", "blue", "purple"]; /* Colori delle pedine dei giocatori */
 
-        function chiediNumeroGiocatori() {
-            numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):");
-            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) {
-                alert("Inserisci un numero valido di giocatori!");
-                chiediNumeroGiocatori();
-            } else {
-                document.querySelector('button').style.display = 'none';
-                generaTabellone();
-                document.getElementById('bottone-giocatore').style.display = 'block';
+        function chiediNumeroGiocatori() 
+        {
+            numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):"); /* Chiede il numero di giocatori */
+            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) 
+            {
+                alert("Inserisci un numero valido di giocatori!"); /* Messaggio di errore */
+                chiediNumeroGiocatori(); /* Richiede nuovamente il numero di giocatori */
+            } 
+            else 
+            {
+                document.querySelector('button').style.display = 'none'; /* Nasconde il bottone di inizio */
+                generaTabellone(); /* Genera il tabellone */
+                document.querySelector('.tabellone-container').classList.add('visibile'); /* Mostra il tabellone */
+                document.getElementById('bottone-giocatore').style.display = 'block'; /* Mostra il bottone per muovere il giocatore */
                 for (var a = 0; a < numGiocatori; a++) {
-                    posizioneGiocatori.push(0);
+                    posizioneGiocatori.push(0); /* Inizializza le posizioni dei giocatori a 0 */
                 }
             }
         }
 
-        function generaTabellone() {
-            var tabelloneHTML = "";
-            for (var i = 9; i >= 0; i--) {
-                if (i % 2 == 0) {
-                    tabelloneHTML += "<div class='fila'>";
-                } else {
-                    tabelloneHTML += "<div class='fila reversed'>";
+        function generaTabellone() 
+        {
+            var tabelloneHTML = ""; /* Inizializza la variabile per l'HTML del tabellone */
+            for (var i = 9; i >= 0; i--) 
+            {
+                if (i % 2 == 0) 
+                {
+                    tabelloneHTML += "<div class='fila'>"; /* Inizia una nuova riga */
+                } 
+                else 
+                {
+                    tabelloneHTML += "<div class='fila reversed'>"; /* Inizia una nuova riga invertita */
                 }
-                for (var j = 0; j < 10; j++) {
-                    var numeroCasella = i * 10 + j + 1;
-                    tabelloneHTML += "<div class='casella' data-numero='" + numeroCasella + "'></div>";
+                for (var j = 0; j < 10; j++) 
+                {
+                    var numeroCasella = i * 10 + j + 1; /* Calcola il numero della casella */
+                    tabelloneHTML += "<div class='casella' data-numero='" + numeroCasella + "'></div>"; /* Aggiunge una casella al tabellone */
                 }
-                tabelloneHTML += "</div>";
+                tabelloneHTML += "</div>"; /* Chiude la riga */
             }
-            document.getElementById("tabellone").innerHTML = tabelloneHTML;
-            disegnaTabellone();
+            document.getElementById("tabellone").innerHTML = tabelloneHTML; /* Inserisce l'HTML del tabellone nel contenitore */
+            disegnaTabellone(); /* Disegna il tabellone */
         }
 
-        function muoviGiocatore() {
-            var dado = Math.floor(Math.random() * 6) + 1;
-            alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado);
-            posizioneGiocatori[giocatoreCorrente] += dado;
-            if (posizioneGiocatori[giocatoreCorrente] >= 100) {
-                posizioneGiocatori[giocatoreCorrente] = 100;
-                document.getElementById("messaggioVittoria").textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
-                apriModale();
+        function muoviGiocatore() 
+        {
+            var dado = Math.floor(Math.random() * 6) + 1; /* Lancia il dado (valore da 1 a 6) */
+            alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado); /* Mostra il risultato del dado */
+            posizioneGiocatori[giocatoreCorrente] += dado; /* Aggiorna la posizione del giocatore */
+            if (posizioneGiocatori[giocatoreCorrente] >= 100) 
+            {
+                posizioneGiocatori[giocatoreCorrente] = 100; /* Imposta la posizione a 100 se supera il 100 */
+                document.getElementById("messaggioVittoria").textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!"; /* Mostra il messaggio di vittoria */
+                apriModale(); /* Apre il modale di vittoria */
             }
-            disegnaTabellone();
-            giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori;
+            disegnaTabellone(); /* Ridisegna il tabellone */
+            giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori; /* Passa al prossimo giocatore */
         }
 
-        function disegnaTabellone() {
-            var caselle = document.querySelectorAll('.casella');
+        function disegnaTabellone() 
+        {
+            var caselle = document.querySelectorAll('.casella'); /* Seleziona tutte le caselle */
             caselle.forEach(casella => {
-                var numeroCasella = parseInt(casella.getAttribute('data-numero'));
-                casella.innerHTML = numeroCasella; // Imposta il numero della casella
-                casella.innerHTML += "<div class='giocatore'></div>"; // Aggiungi un contenitore per le pedine
+                var numeroCasella = parseInt(casella.getAttribute('data-numero')); /* Ottiene il numero della casella */
+                casella.innerHTML = numeroCasella; /* Imposta il numero della casella */
+                casella.innerHTML += "<div class='giocatore'></div>"; /* Aggiunge un contenitore per le pedine */
             });
-            for (var k = 0; k < numGiocatori; k++) {
-                var posizione = posizioneGiocatori[k];
-                if (posizione > 0 && posizione <= 100) {
-                    var casella = document.querySelector(".casella[data-numero='" + posizione + "']");
+            for (var k = 0; k < numGiocatori; k++) 
+            {
+                var posizione = posizioneGiocatori[k]; /* Ottiene la posizione del giocatore */
+                if (posizione > 0 && posizione <= 100) 
+                {
+                    var casella = document.querySelector(".casella[data-numero='" + posizione + "']"); /* Seleziona la casella corrispondente */
                     if (casella) {
-                        var pedina = document.createElement('div');
-                        pedina.classList.add('giocatore');
-                        pedina.innerHTML = ['&#x265a;', '&#x265b;', '&#x265c;', '&#x265e;'][k];
-                        pedina.style.color = pedineGiocatori[k];
-                        casella.querySelector('.giocatore').appendChild(pedina);
+                        var pedina = document.createElement('div'); /* Crea un nuovo elemento per la pedina */
+                        pedina.classList.add('giocatore'); /* Aggiunge la classe 'giocatore' */
+                        pedina.innerHTML = ['&#x265a;', '&#x265b;', '&#x265c;', '&#x265e;'][k]; /* Imposta il simbolo della pedina */
+                        pedina.style.color = pedineGiocatori[k]; /* Imposta il colore della pedina */
+                        casella.querySelector('.giocatore').appendChild(pedina); /* Aggiunge la pedina alla casella */
                     }
                 }
             }
         }
 
         // Funzioni per il modale
-        var modale = document.getElementById("myModal");
+        var modale = document.getElementById("myModal"); /* Seleziona il modale */
 
         function apriModale() {
-            modale.style.display = "block";
+            modale.style.display = "block"; /* Mostra il modale */
         }
 
         function chiudiModale() {
-            modale.style.display = "none";
+            modale.style.display = "none"; /* Nasconde il modale */
         }
-
     </script>
 </body>
 
