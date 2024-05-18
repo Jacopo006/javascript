@@ -3,8 +3,7 @@
 
 <head>
     <style>
-        body 
-        {
+        body {
             margin: 0;
             padding: 0;
             display: flex;
@@ -13,11 +12,10 @@
             font-family: Arial, sans-serif;
         }
 
-        .tabellone-container 
-        {
+        .tabellone-container {
             display: flex;
             justify-content: center;
-            margin-top: 150px; /* Spostamento ulteriore in basso */
+            margin-top: 150px;
             overflow-x: auto;
             max-height: 70vh;
             background-image: url("oca2.jpg");
@@ -26,56 +24,53 @@
             background-size: cover;
         }
 
-        .tabellone 
-        {
+        .tabellone {
             display: flex;
             flex-wrap: wrap;
             max-width: 600px;
         }
 
-        .fila 
-        {
+        .fila {
             display: flex;
+            width: 100%;
         }
 
-        .casella 
-        {
+        .fila.reversed {
+            flex-direction: row-reverse;
+        }
+
+        .casella {
             width: 60px;
             height: 60px;
             box-sizing: border-box;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.0000000001em;
+            font-size: 14px;
             position: relative;
+            border: 1px solid #000; /* Aggiungi un bordo per vedere meglio le caselle */
         }
 
-        .giocatore
-        {
-            font-size: 27000000000em;
+        .giocatore {
+            font-size: 24px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
-        button 
-        {
+        button {
             margin: 5px;
             padding: 10px 20px;
             font-size: 16px;
         }
 
-        #bottone-giocatore 
-        {
+        #bottone-giocatore {
             display: none;
         }
 
-
         /* Stili per il modale */
-        /* https://www.w3schools.com/howto/howto_css_modals.asp */
-        .modal 
-        {
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -86,8 +81,7 @@
             z-index: 9999;
         }
 
-        .modal-content 
-        {
+        .modal-content {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -121,105 +115,84 @@
         var numGiocatori = 0;
         var posizioneGiocatori = [];
         var giocatoreCorrente = 0;
-        var pedineGiocatori = ["black", "red", "blue", "purple"]; // Lista di colori per le pedine dei giocatori
+        var pedineGiocatori = ["black", "red", "blue", "purple"];
 
         function chiediNumeroGiocatori() {
             numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):");
-            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) 
-            {
-                alert("Inserisci un nmero valido di giocatori!");
+            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) {
+                alert("Inserisci un numero valido di giocatori!");
                 chiediNumeroGiocatori();
-            } else 
-            {
+            } else {
                 document.querySelector('button').style.display = 'none';
                 generaTabellone();
                 document.getElementById('bottone-giocatore').style.display = 'block';
-            }
-            for (var a = 0; a < numGiocatori; a++) 
-            {
-                /* https://codyhouse.co/blog/post/javascript-append-to-array */
-                posizioneGiocatori.push(a);
-                posizioneGiocatori[a] = 0;
+                for (var a = 0; a < numGiocatori; a++) {
+                    posizioneGiocatori.push(0);
+                }
             }
         }
 
         function generaTabellone() {
             var tabelloneHTML = "";
-            for (var i = 0; i < 100; i++) {
-                if (i % 10 === 0 && i !== 0) {
-                    tabelloneHTML += "</div><div class='fila'>";
+            for (var i = 9; i >= 0; i--) {
+                if (i % 2 == 0) {
+                    tabelloneHTML += "<div class='fila'>";
+                } else {
+                    tabelloneHTML += "<div class='fila reversed'>";
                 }
-                tabelloneHTML += "<div class='casella' data-numero='" + (i + 1) + "'></div>";
+                for (var j = 0; j < 10; j++) {
+                    var numeroCasella = i * 10 + j + 1;
+                    tabelloneHTML += "<div class='casella' data-numero='" + numeroCasella + "'></div>";
+                }
+                tabelloneHTML += "</div>";
             }
-            document.getElementById("tabellone").innerHTML = "<div class='fila'>" + tabelloneHTML + "</div>";
+            document.getElementById("tabellone").innerHTML = tabelloneHTML;
             disegnaTabellone();
         }
 
-        function muoviGiocatore() 
-        {
-            // background-image: url("oca.jpg");
-            // height: 100%; 
-            // background-position: center;
-            // background-repeat: no-repeat;
-            // background-size: cover;
-
-
-
+        function muoviGiocatore() {
             var dado = Math.floor(Math.random() * 6) + 1;
             alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado);
             posizioneGiocatori[giocatoreCorrente] += dado;
             if (posizioneGiocatori[giocatoreCorrente] >= 100) {
-                var messaggioVittoria = document.getElementById("messaggioVittoria");
-                messaggioVittoria.textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
-                apriModale();
                 posizioneGiocatori[giocatoreCorrente] = 100;
+                document.getElementById("messaggioVittoria").textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
+                apriModale();
             }
+            disegnaTabellone();
             giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori;
         }
 
         function disegnaTabellone() {
             var caselle = document.querySelectorAll('.casella');
             caselle.forEach(casella => {
-                var numeroCasella = casella.getAttribute('data-numero');
+                var numeroCasella = parseInt(casella.getAttribute('data-numero'));
                 casella.innerHTML = numeroCasella; // Imposta il numero della casella
-                var pedineHTML = ""; // Stringa HTML per le pedine
-                for (var k = 0; k < numGiocatori; k++) 
-                {
-                    var posizione = posizioneGiocatori[k];
-                    if (posizione == numeroCasella) 
-                    {
+                casella.innerHTML += "<div class='giocatore'></div>"; // Aggiungi un contenitore per le pedine
+            });
+            for (var k = 0; k < numGiocatori; k++) {
+                var posizione = posizioneGiocatori[k];
+                if (posizione > 0 && posizione <= 100) {
+                    var casella = document.querySelector(".casella[data-numero='" + posizione + "']");
+                    if (casella) {
                         var pedina = document.createElement('div');
                         pedina.classList.add('giocatore');
-                        if (k === 0) 
-                        {
-                            pedina.innerHTML = '&#x265a;';
-                        } else if (k === 1) 
-                        {
-                            pedina.innerHTML = '&#x265b;';
-                        } else if (k === 2) 
-                        {
-                            pedina.innerHTML = '&#x265c;';
-                        } else if (k === 3) 
-                        {
-                            pedina.innerHTML = '&#x265e;';
-                        }
-                        pedina.style.color = pedineGiocatori[k]; // Usa il colore della lista pedineGiocatori per la pedina
-                        casella.appendChild(pedina);
-                        break;
+                        pedina.innerHTML = ['&#x265a;', '&#x265b;', '&#x265c;', '&#x265e;'][k];
+                        pedina.style.color = pedineGiocatori[k];
+                        casella.querySelector('.giocatore').appendChild(pedina);
                     }
                 }
-
-            });
+            }
         }
 
         // Funzioni per il modale
         var modale = document.getElementById("myModal");
-        function apriModale() 
-        {
+
+        function apriModale() {
             modale.style.display = "block";
         }
-        function chiudiModale() 
-        {
+
+        function chiudiModale() {
             modale.style.display = "none";
         }
 
