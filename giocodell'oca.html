@@ -175,20 +175,77 @@
             disegnaTabellone(); /* Disegna il tabellone */
         }
 
-        function muoviGiocatore() 
-        {
-            var dado = Math.floor(Math.random() * 6) + 1; /* Lancia il dado (valore da 1 a 6) */
-            alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado); /* Mostra il risultato del dado */
-            posizioneGiocatori[giocatoreCorrente] += dado; /* Aggiorna la posizione del giocatore */
+
+
+        // se la pedina va su uno il 4 devi farla avanzare al numero 7. se va al 13 la fai tornare indietro alla casella numero 9. se va sulla 16 la fai tornare indietro alla 5. se va alla 23 la fai tornare alla 21. se va sulla 22 la fai avanzare alla 35. se va sulla 34 la fai avanzare alla 70. se vai sulla 24 la fai avanzare alla 99. se vai sulla 400 la fai avanzare alla 60. se vai sulla 46 la fai indietreggiare alle 42. se vai sulla 54 la fai avanzare alla 74. se vai sulla 73 la fai tornare alle 69. se vai sulla 78 la fai tornare sulla 62. se vai sulla 84 la fai andare alla 90. e se va sulla 96 la fai andare alla 94.
+        function muoviGiocatore() {
+            var dado = Math.floor(Math.random() * 6) + 1;
+            var avanzamento = dado; // Avanzamento basato sul numero ottenuto sul dado
+            alert("Il giocatore " + (giocatoreCorrente + 1) + " ha lanciato il dado! Il numero ottenuto è: " + dado);
+            posizioneGiocatori[giocatoreCorrente] += avanzamento;
+
+            // Gestione dei movimenti speciali della pedina
+            switch (posizioneGiocatori[giocatoreCorrente]) 
+            {
+                case 1:
+                    posizioneGiocatori[giocatoreCorrente] = 4;
+                    break;
+                case 13:
+                    posizioneGiocatori[giocatoreCorrente] = 9;
+                    break;
+                case 16:
+                    posizioneGiocatori[giocatoreCorrente] = 5;
+                    break;
+                case 23:
+                    posizioneGiocatori[giocatoreCorrente] = 21;
+                    break;
+                case 22:
+                    posizioneGiocatori[giocatoreCorrente] = 35;
+                    break;
+                case 34:
+                    posizioneGiocatori[giocatoreCorrente] = 70;
+                    break;
+                case 24:
+                    posizioneGiocatori[giocatoreCorrente] = 99;
+                    break;
+                case 400:
+                    posizioneGiocatori[giocatoreCorrente] = 60;
+                    break;
+                case 46:
+                    posizioneGiocatori[giocatoreCorrente] = 42;
+                    break;
+                case 54:
+                    posizioneGiocatori[giocatoreCorrente] = 74;
+                    break;
+                case 73:
+                    posizioneGiocatori[giocatoreCorrente] = 69;
+                    break;
+                case 78:
+                    posizioneGiocatori[giocatoreCorrente] = 62;
+                    break;
+                case 84:
+                    posizioneGiocatori[giocatoreCorrente] = 90;
+                    break;
+                case 96:
+                    posizioneGiocatori[giocatoreCorrente] = 94;
+                    break;
+            }
+
+            // Controllo se il giocatore ha vinto
             if (posizioneGiocatori[giocatoreCorrente] >= 100) 
             {
-                posizioneGiocatori[giocatoreCorrente] = 100; /* Imposta la posizione a 100 se supera il 100 */
-                document.getElementById("messaggioVittoria").textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!"; /* Mostra il messaggio di vittoria */
-                apriModale(); /* Apre il modale di vittoria */
+                posizioneGiocatori[giocatoreCorrente] = 100;
+                document.getElementById("messaggioVittoria").textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
+                apriModale();
             }
-            disegnaTabellone(); /* Ridisegna il tabellone */
-            giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori; /* Passa al prossimo giocatore */
+
+            // Ridisegna il tabellone con le nuove posizioni delle pedine
+            disegnaTabellone();
+
+            // Passa al prossimo giocatore
+            giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori;
         }
+
 
         function disegnaTabellone() 
         {
