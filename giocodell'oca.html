@@ -178,7 +178,6 @@
         }
 
 
-
         // se la pedina va su uno il 4 devi farla avanzare al numero 7. se va al 13 la fai tornare indietro alla casella numero 9. se va sulla 16 la fai tornare indietro alla 5. se va alla 23 la fai tornare alla 21. se va sulla 22 la fai avanzare alla 35. se va sulla 34 la fai avanzare alla 70. se vai sulla 24 la fai avanzare alla 99. se vai sulla 40 la fai avanzare alla 60. se vai sulla 46 la fai indietreggiare alle 42. se vai sulla 54 la fai avanzare alla 74. se vai sulla 73 la fai tornare alle 69. se vai sulla 78 la fai tornare sulla 62. se vai sulla 84 la fai andare alla 90. e se va sulla 96 la fai andare alla 94.
         function muoviGiocatore() {
             var dado = Math.floor(Math.random() * 6) + 1;
@@ -241,14 +240,27 @@
             {
                 posizioneGiocatori[giocatoreCorrente] = 100;
                 document.getElementById("messaggioVittoria").textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
+                
                 apriModale();
+
+                /* https://www.w3schools.com/js/js_timing.asp */
+                //window.setTimeout(4000);
+                /*for (var k = 0; k < numGiocatori; k++)
+                {
+                    posizioneGiocatori[k] = 0;
+                }*/
             }
 
             // Ridisegna il tabellone con le nuove posizioni delle pedine
             disegnaTabellone();
 
             // Passa al prossimo giocatore
-            giocatoreCorrente = (giocatoreCorrente + 1) % numGiocatori;
+            giocatoreCorrente++;
+            if (giocatoreCorrente >= numGiocatori) 
+            {
+                giocatoreCorrente = 0;
+            }
+
         }
 
 
@@ -266,7 +278,8 @@
                 if (posizione > 0 && posizione <= 100) 
                 {
                     var casella = document.querySelector(".casella[data-numero='" + posizione + "']"); /* Seleziona la casella corrispondente */
-                    if (casella) {
+                    if (casella) 
+                    {
                         var pedina = document.createElement('div'); /* Crea un nuovo elemento per la pedina */
                         pedina.classList.add('giocatore'); /* Aggiunge la classe 'giocatore' */
                         pedina.innerHTML = ['&#x265a;', '&#x265b;', '&#x265c;', '&#x265e;'][k]; /* Imposta il simbolo della pedina */
