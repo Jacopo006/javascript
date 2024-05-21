@@ -3,359 +3,284 @@
 
 <head>
     <style>
-        body 
-        {
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            font-family: Arial, sans-serif; 
-        }
-
-        .tabellone-container 
-        {
+        body {
+            margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: center; 
-            margin-top: 150px; 
-            overflow-x: auto; 
-            background-image: url("oca2.jpg"); 
-            background-position: center; 
-            background-repeat: no-repeat; 
-            background-size: cover; 
-            visibility: hidden; 
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
         }
 
-        .tabellone-container.visibile 
-        {
-            visibility: visible; /* Mostra il tabellone quando il gioco inizia */
-        }
-
-        .tabellone 
-        {
-            display: flex; 
-            flex-wrap: wrap; 
-            max-width: 600px; 
-        }
-
-        .fila 
-        {
-            display: flex; 
-            width: 100%; 
-        }
-
-        .fila.reversed 
-        {
-            flex-direction: row-reverse; /* Inverte la direzione della riga */
-        }
-
-        .casella 
-        {
-            width: 60px; /* Larghezza di ogni casella */
-            height: 60px; /* Altezza di ogni casella */
-            box-sizing: border-box; 
-            display: flex; 
+        .tabellone-container {
+            display: flex;
             justify-content: center;
-            align-items: center; 
-            font-size: 0.00001px; /* Dimensione del font praticamente invisibile */
-            position: relative; /* Posizione relativa per elementi assoluti */
-            border: none; /* Rimuove il bordo */
+            margin-top: 150px;
+            overflow-x: auto;
+            background-image: url("oca2.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            visibility: hidden;
         }
 
-        .giocatore 
-        {
-            font-size: 35px; /* Dimensione del font per i giocatori */
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
+        .tabellone-container.visibile {
+            visibility: visible;
         }
 
-        button 
-        {
-            margin: 5px; 
-            padding: 10px 20px; 
-            font-size: 16px; 
+        .tabellone {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 600px;
         }
 
-        #bottone-giocatore 
-        {
+        .fila {
+            display: flex;
+            width: 100%;
+        }
+
+        .fila.reversed {
+            flex-direction: row-reverse;
+        }
+
+        .casella {
+            width: 60px;
+            height: 60px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.00001px;
+            position: relative;
+            border: none;
+        }
+
+        .giocatore {
+            font-size: 35px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        #bottone-giocatore {
             display: none;
         }
 
-        /* https://www.w3schools.com/howto/howto_css_modals.asp */
-        .modal 
-        {
-            display: none; /* Nasconde il modale all'inizio */
-            position: fixed; /* Posizione fissa */
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-color: rgba(0, 0, 0, 0.5); 
-            z-index: 9999; /* Porta il modale in primo piano */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
         }
 
-        .modal-content 
-        {
+        .modal-content {
             position: absolute;
-            top: 50%; 
-            left: 50%; 
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white; 
-            padding: 20px; 
-            border-radius: 10px; /* Angoli arrotondati */
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dado {
+            margin-top: 20px;
+        }
+
+        .dado img {
+            width: 100px;
+            height: 100px;
         }
     </style>
 </head>
 
 <body class="sfondo">
-    <button onclick="chiediNumeroGiocatori()">Inizia il Gioco</button> <!-- Bottone per iniziare il gioco -->
+    <button onclick="chiediNumeroGiocatori()">Inizia il Gioco</button>
     <div class="tabellone-container">
-        <div id="tabellone"></div> <!-- Contenitore per il tabellone -->
+        <div id="tabellone"></div>
     </div>
     <div id="bottone-giocatore">
-        <button onclick="muoviGiocatore()">Prossimo Giocatore</button> <!-- Bottone per muovere il giocatore -->
+        <button onclick="muoviGiocatore()">Prossimo Giocatore</button>
     </div>
 
-    <!-- Modale per il messaggio di vittoria -->
+    <div class="dado">
+        <img id="immagine-dado" src="" alt="Dado">
+    </div>
+
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <h2 id="messaggioVittoria"></h2> <!-- Messaggio di vittoria -->
-            <button onclick="chiudiModale()" >Chiudi</button> <!-- Bottone per chiudere il modale -->
-            
+            <h2 id="messaggioVittoria"></h2>
+            <button onclick="chiudiModale()">Chiudi</button>
         </div>
     </div>
 
     <script>
-        var numGiocatori = 0; /* Numero di giocatori */
-        var posizioneGiocatori = []; /* Posizioni dei giocatori */
-        var giocatoreCorrente = 0; /* Indice del giocatore corrente */
-        var pedineGiocatori = ["black", "red", "blue", "purple"]; /* Colori delle pedine dei giocatori */
+        var numGiocatori = 0;
+        var posizioneGiocatori = [];
+        var giocatoreCorrente = 0;
+        var pedineGiocatori = ["black", "red", "blue", "purple"];
 
-        function chiediNumeroGiocatori() 
-        {
-            numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):"); /* Chiede il numero di giocatori */
-            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) 
-            {
-                alert("Inserisci un numero valido di giocatori!"); /* Messaggio di errore */
-                chiediNumeroGiocatori(); /* Richiede nuovamente il numero di giocatori */
-            } 
-            else 
-            {
-                document.querySelector('button').style.display = 'none'; /* Nasconde il bottone di inizio */
-                generaTabellone(); /* Genera il tabellone */
-                document.querySelector('.tabellone-container').classList.add('visibile'); /* Mostra il tabellone */
-                document.getElementById('bottone-giocatore').style.display = 'block'; /* Mostra il bottone per muovere il giocatore */
-                for (var a = 0; a < numGiocatori; a++) 
-                {
-                    /* https://codyhouse.co/blog/post/javascript-append-to-array */
-                    posizioneGiocatori.push(0); /* Inizializza le posizioni dei giocatori a 0 */
+        function chiediNumeroGiocatori() {
+            numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):");
+            if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) {
+                alert("Inserisci un numero valido di giocatori!");
+                chiediNumeroGiocatori();
+            } else {
+                document.querySelector('button').style.display = 'none';
+                generaTabellone();
+                document.querySelector('.tabellone-container').classList.add('visibile');
+                document.getElementById('bottone-giocatore').style.display = 'block';
+                for (var a = 0; a < numGiocatori; a++) {
+                    posizioneGiocatori.push(0);
                 }
             }
         }
 
-        function generaTabellone() 
-        {
-            var tabelloneHTML = ""; /* Inizializza la variabile per l'HTML del tabellone */
-            for (var i = 9; i >= 0; i--) 
-            {
-                if (i % 2 == 0) 
-                {
-                    tabelloneHTML += "<div class='fila'>"; /* Inizia una nuova riga */
-                } 
-                else 
-                {
-                    tabelloneHTML += "<div class='fila reversed'>"; /* Inizia una nuova riga invertita */
+        function generaTabellone() {
+            var tabelloneHTML = "";
+            for (var i = 9; i >= 0; i--) {
+                if (i % 2 == 0) {
+                    tabelloneHTML += "<div class='fila'>";
+                } else {
+                    tabelloneHTML += "<div class='fila reversed'>";
                 }
-                for (var j = 0; j < 10; j++) 
-                {
-                    var numeroCasella = i * 10 + j + 1; /* Calcola il numero della casella */
-                    tabelloneHTML += "<div class='casella' data-numero='" + numeroCasella + "'></div>"; /* Aggiunge una casella al tabellone */
+                for (var j = 0; j < 10; j++) {
+                    var numeroCasella = i * 10 + j + 1;
+                    tabelloneHTML += "<div class='casella' data-numero='" + numeroCasella + "'></div>";
                 }
-                tabelloneHTML += "</div>"; /* Chiude la riga */
+                tabelloneHTML += "</div>";
             }
-            document.getElementById("tabellone").innerHTML = tabelloneHTML; /* Inserisce l'HTML del tabellone nel contenitore */
-            disegnaTabellone(); /* Disegna il tabellone */
+            document.getElementById("tabellone").innerHTML = tabelloneHTML;
+            disegnaTabellone();
         }
 
+        function muoviGiocatore() {
+            var dado = Math.floor(Math.random() * 6) + 1;
+            var immagineDado = document.getElementById("immagine-dado");
 
-        // se la pedina va su uno il 4 devi farla avanzare al numero 7. se va al 13 la fai tornare indietro alla casella numero 9. se va sulla 16 la fai tornare indietro alla 5. se va alla 23 la fai tornare alla 21. se va sulla 22 la fai avanzare alla 35. se va sulla 34 la fai avanzare alla 70. se vai sulla 24 la fai avanzare alla 99. se vai sulla 40 la fai avanzare alla 60. se vai sulla 46 la fai indietreggiare alle 42. se vai sulla 54 la fai avanzare alla 74. se vai sulla 73 la fai tornare alle 69. se vai sulla 78 la fai tornare sulla 62. se vai sulla 84 la fai andare alla 90. e se va sulla 96 la fai andare alla 94.
-        function muoviGiocatore() 
-        {
+            // Aggiorna l'immagine del dado
+            immagineDado.src = "dado" + dado + ".png";
+            immagineDado.alt = "Dado che mostra " + dado;
 
-            var avanzamento = dado; // Avanzamento basato sul numero ottenuto sul dado
+            var avanzamento = dado;
+            posizioneGiocatori[giocatoreCorrente] += avanzamento;
 
-                for (var i = 0; i < 3 ; i++ )
-                {
-                    var dado = Math.floor(Math.random() * 6) + 1;
-                    switch (dado) 
-                    {
-                        case 1:
-                            <div id= "dado" img src="dice- 1">  </div>
-                            break;
-
-                        case 2:
-                            <div id= "dado" img src="dice- 2">  </div>
-                            break;
-
-                        case 3:
-                            <div id= "dado" img src="dice- 3">  </div>
-                            break;
-
-                        case 4:
-                            <div id= "dado" img src="dice- 4">  </div>
-                            break;
-
-                        case 5:
-                            <div id= "dado" img src="dice- 5">  </div>
-                            break;
-
-                        case 6:
-                            <div id= "dado" img src="dice- 6">  </div>
-                            break;
-                    
-                    }
-
-                }
-
-                posizioneGiocatori[giocatoreCorrente] += avanzamento;
-             
-            // Gestione dei movimenti speciali della pedina
-            switch (posizioneGiocatori[giocatoreCorrente]) 
-            {
+            switch (posizioneGiocatori[giocatoreCorrente]) {
                 case 7:
                     posizioneGiocatori[giocatoreCorrente] = 4;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 7 alla 4");
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 7 alla 4");
                     break;
-                case 9:
-                    posizioneGiocatori[giocatoreCorrente] = 13;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 9 alla 13");
+                case 13:
+                    posizioneGiocatori[giocatoreCorrente] = 9;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 13 alla 9");
                     break;
-                case 5:
-                    posizioneGiocatori[giocatoreCorrente] = 16;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 5 alla 16");
+                case 16:
+                    posizioneGiocatori[giocatoreCorrente] = 5;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 16 alla 5");
                     break;
-                case 35:
-                    posizioneGiocatori[giocatoreCorrente] = 22;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 35 alla 22");
+                case 23:
+                    posizioneGiocatori[giocatoreCorrente] = 21;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 23 alla 21");
                     break;
-                case 21:
-                    posizioneGiocatori[giocatoreCorrente] = 23;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 21 alla 23");
+                case 22:
+                    posizioneGiocatori[giocatoreCorrente] = 35;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 22 alla 35");
                     break;
-                case 99:
-                    posizioneGiocatori[giocatoreCorrente] = 24;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 99 alla 24");
+                case 34:
+                    posizioneGiocatori[giocatoreCorrente] = 70;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 34 alla 70");
                     break;
-                case 70:
-                    posizioneGiocatori[giocatoreCorrente] = 34;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 70 alla 34");
+                case 24:
+                    posizioneGiocatori[giocatoreCorrente] = 99;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 24 alla 99");
                     break;
-                case 60:
-                    posizioneGiocatori[giocatoreCorrente] = 40;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 60 alla 40");
+                case 40:
+                    posizioneGiocatori[giocatoreCorrente] = 60;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 40 alla 60");
                     break;
-                case 42:
-                    posizioneGiocatori[giocatoreCorrente] = 46;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 42 alla 46");
+                case 46:
+                    posizioneGiocatori[giocatoreCorrente] = 42;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 46 alla 42");
                     break;
-                case 74:
-                    posizioneGiocatori[giocatoreCorrente] = 54;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 74 alla 54");
+                case 54:
+                    posizioneGiocatori[giocatoreCorrente] = 74;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 54 alla 74");
                     break;
-                case 69:
-                    posizioneGiocatori[giocatoreCorrente] = 73;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 69 alla 73");
+                case 73:
+                    posizioneGiocatori[giocatoreCorrente] = 69;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 73 alla 69");
                     break;
-                case 62:
-                    posizioneGiocatori[giocatoreCorrente] = 78;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 62 alla 78");
+                case 78:
+                    posizioneGiocatori[giocatoreCorrente] = 62;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 78 alla 62");
                     break;
-                case 90:
-                    posizioneGiocatori[giocatoreCorrente] = 84;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 90 alla 84");
+                case 84:
+                    posizioneGiocatori[giocatoreCorrente] = 90;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 84 alla 90");
                     break;
-                case 56:
-                    posizioneGiocatori[giocatoreCorrente] = 85;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 56 alla 85");
-                    break;
-                case 94:
-                    posizioneGiocatori[giocatoreCorrente] = 96;
-                    alert("Il giocattore " + giocatoreCorrente + "è passato dalla posizione 94 alla 96");
+                case 96:
+                    posizioneGiocatori[giocatoreCorrente] = 94;
+                    alert("Il giocatore " + (giocatoreCorrente + 1) + " è passato dalla posizione 96 alla 94");
                     break;
             }
 
-            // Controllo se il giocatore ha vinto
-            if (posizioneGiocatori[giocatoreCorrente] >= 100) 
-            {
+            if (posizioneGiocatori[giocatoreCorrente] >= 100) {
                 posizioneGiocatori[giocatoreCorrente] = 100;
                 document.getElementById("messaggioVittoria").textContent = "Il giocatore " + (giocatoreCorrente + 1) + " ha vinto!";
-                
                 apriModale();
-
-                /* https://www.w3schools.com/js/js_timing.asp */
-                //window.setTimeout(4000);
-                /*for (var k = 0; k < numGiocatori; k++)
-                {
-                    posizioneGiocatori[k] = 0;
-                }*/
             }
 
-            // Ridisegna il tabellone con le nuove posizioni delle pedine
             disegnaTabellone();
 
-            // Passa al prossimo giocatore
             giocatoreCorrente++;
-            if (giocatoreCorrente >= numGiocatori) 
-            {
+            if (giocatoreCorrente >= numGiocatori) {
                 giocatoreCorrente = 0;
             }
-
         }
 
-
-        function disegnaTabellone() 
-        {
-            var caselle = document.querySelectorAll('.casella'); /* Seleziona tutte le caselle */
+        function disegnaTabellone() {
+            var caselle = document.querySelectorAll('.casella');
             caselle.forEach(casella => {
-                var numeroCasella = parseInt(casella.getAttribute('data-numero')); /* Ottiene il numero della casella */
-                casella.innerHTML = numeroCasella; /* Imposta il numero della casella */
-                casella.innerHTML += "<div class='giocatore'></div>"; /* Aggiunge un contenitore per le pedine */
+                var numeroCasella = parseInt(casella.getAttribute('data-numero'));
+                casella.innerHTML = numeroCasella;
+                casella.innerHTML += "<div class='giocatore'></div>";
             });
-            for (var k = 0; k < numGiocatori; k++) 
-            {
-                var posizione = posizioneGiocatori[k]; /* Ottiene la posizione del giocatore */
-                if (posizione > 0 && posizione <= 100) 
-                {
-                    var casella = document.querySelector(".casella[data-numero='" + posizione + "']"); /* Seleziona la casella corrispondente */
-                    if (casella) 
-                    {
-                        var pedina = document.createElement('div'); /* Crea un nuovo elemento per la pedina */
-                        pedina.classList.add('giocatore'); /* Aggiunge la classe 'giocatore' */
-                        pedina.innerHTML = ['&#x265a;', '&#x265b;', '&#x265c;', '&#x265e;'][k]; /* Imposta il simbolo della pedina */
-                        pedina.style.color = pedineGiocatori[k]; /* Imposta il colore della pedina */
-                        casella.querySelector('.giocatore').appendChild(pedina); /* Aggiunge la pedina alla casella */
+            for (var k = 0; k < numGiocatori; k++) {
+                var posizione = posizioneGiocatori[k];
+                if (posizione > 0 && posizione <= 100) {
+                    var casella = document.querySelector(".casella[data-numero='" + posizione + "']");
+                    if (casella) {
+                        var pedina = document.createElement('div');
+                        pedina.classList.add('giocatore');
+                        pedina.innerHTML = ['&#x265a;', '&#x265b;', '&#x265c;', '&#x265e;'][k];
+                        pedina.style.color = pedineGiocatori[k];
+                        casella.querySelector('.giocatore').appendChild(pedina);
                     }
                 }
             }
         }
 
-        // Funzioni per il modale
-        var modale = document.getElementById("myModal"); /* Seleziona il modale */
+        var modale = document.getElementById("myModal");
 
-        function apriModale()
-        {
-            modale.style.display = "block"; /* Mostra il modale */
+        function apriModale() {
+            modale.style.display = "block";
         }
 
-        function chiudiModale() 
-        {
-            modale.style.display = "none"; /* Nasconde il modale */
-            
-            setTimeout(function() /*https://www.mrw.it/javascript/come-faccio-ricaricare-pagina-javascript_8694.html*/
-            {
-            window.location.reload()
+        function chiudiModale() {
+            modale.style.display = "none";
+            setTimeout(function() {
+                window.location.reload();
             }, 3000);
         }
     </script>
