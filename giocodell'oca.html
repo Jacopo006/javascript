@@ -64,7 +64,7 @@
 
         .giocatore 
         {
-            font-size: 24px; /* Dimensione del font per i giocatori */
+            font-size: 35px; /* Dimensione del font per i giocatori */
             position: absolute; 
             top: 50%; 
             left: 50%; 
@@ -146,7 +146,8 @@
                 generaTabellone(); /* Genera il tabellone */
                 document.querySelector('.tabellone-container').classList.add('visibile'); /* Mostra il tabellone */
                 document.getElementById('bottone-giocatore').style.display = 'block'; /* Mostra il bottone per muovere il giocatore */
-                for (var a = 0; a < numGiocatori; a++) {
+                for (var a = 0; a < numGiocatori; a++) 
+                {
                     /* https://codyhouse.co/blog/post/javascript-append-to-array */
                     posizioneGiocatori.push(0); /* Inizializza le posizioni dei giocatori a 0 */
                 }
@@ -188,50 +189,50 @@
             // Gestione dei movimenti speciali della pedina
             switch (posizioneGiocatori[giocatoreCorrente]) 
             {
-                case 4:
-                    posizioneGiocatori[giocatoreCorrente] = 7;
+                case 7:
+                    posizioneGiocatori[giocatoreCorrente] = 4;
                     break;
-                case 13:
-                    posizioneGiocatori[giocatoreCorrente] = 9;
+                case 9:
+                    posizioneGiocatori[giocatoreCorrente] = 13;
                     break;
-                case 16:
-                    posizioneGiocatori[giocatoreCorrente] = 5;
+                case 5:
+                    posizioneGiocatori[giocatoreCorrente] = 16;
                     break;
-                case 22:
-                    posizioneGiocatori[giocatoreCorrente] = 35;
+                case 35:
+                    posizioneGiocatori[giocatoreCorrente] = 22;
                     break;
-                case 23:
-                    posizioneGiocatori[giocatoreCorrente] = 21;
+                case 21:
+                    posizioneGiocatori[giocatoreCorrente] = 23;
                     break;
-                case 24:
-                    posizioneGiocatori[giocatoreCorrente] = 99;
+                case 99:
+                    posizioneGiocatori[giocatoreCorrente] = 24;
                     break;
-                case 34:
-                    posizioneGiocatori[giocatoreCorrente] = 70;
+                case 70:
+                    posizioneGiocatori[giocatoreCorrente] = 34;
                     break;
-                case 40:
-                    posizioneGiocatori[giocatoreCorrente] = 60;
+                case 60:
+                    posizioneGiocatori[giocatoreCorrente] = 40;
                     break;
-                case 46:
-                    posizioneGiocatori[giocatoreCorrente] = 42;
+                case 42:
+                    posizioneGiocatori[giocatoreCorrente] = 46;
                     break;
-                case 54:
-                    posizioneGiocatori[giocatoreCorrente] = 74;
+                case 74:
+                    posizioneGiocatori[giocatoreCorrente] = 54;
                     break;
-                case 73:
-                    posizioneGiocatori[giocatoreCorrente] = 69;
+                case 69:
+                    posizioneGiocatori[giocatoreCorrente] = 73;
                     break;
-                case 78:
-                    posizioneGiocatori[giocatoreCorrente] = 62;
+                case 62:
+                    posizioneGiocatori[giocatoreCorrente] = 78;
                     break;
-                case 84:
-                    posizioneGiocatori[giocatoreCorrente] = 90;
+                case 90:
+                    posizioneGiocatori[giocatoreCorrente] = 84;
                     break;
-                case 85:
-                    posizioneGiocatori[giocatoreCorrente] = 56;
+                case 56:
+                    posizioneGiocatori[giocatoreCorrente] = 85;
                     break;
-                case 96:
-                    posizioneGiocatori[giocatoreCorrente] = 94;
+                case 94:
+                    posizioneGiocatori[giocatoreCorrente] = 96;
                     break;
             }
 
