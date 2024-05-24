@@ -91,7 +91,6 @@
             transform: translate(-50%, -50%);
             background-color: white;
             padding: 20px;
-            border-radius: 10px;
         }
 
         .dado {
@@ -132,20 +131,30 @@
         var pedineGiocatori = ["black", "red", "blue", "purple"];
 
         function chiediNumeroGiocatori() {
+            // Chiede all'utente di inserire il numero di giocatori
             numGiocatori = prompt("Inserisci il numero di giocatori (da 1 a 4):");
+            
+            // Controlla se il numero inserito è valido
             if (numGiocatori < 1 || numGiocatori > 4 || isNaN(numGiocatori)) {
+                // Mostra un messaggio di errore e richiama la funzione per chiedere di nuovo
                 alert("Inserisci un numero valido di giocatori!");
                 chiediNumeroGiocatori();
             } else {
+                // Nasconde il pulsante di inizio gioco
                 document.querySelector('button').style.display = 'none';
+                // Genera il tabellone di gioco
                 generaTabellone();
+                // Rende visibile il contenitore del tabellone
                 document.querySelector('.tabellone-container').classList.add('visibile');
+                // Mostra il pulsante per il turno del prossimo giocatore
                 document.getElementById('bottone-giocatore').style.display = 'block';
+                // Inizializza la posizione di ciascun giocatore a 0
                 for (var a = 0; a < numGiocatori; a++) {
                     posizioneGiocatori.push(0);
                 }
             }
         }
+
 
         function generaTabellone() {
             var tabelloneHTML = "";
@@ -252,12 +261,18 @@
         }
 
         function disegnaTabellone() {
+            // Seleziona tutte le caselle del tabellone
             var caselle = document.querySelectorAll('.casella');
-            caselle.forEach(casella => {
+            
+            // Aggiorna il contenuto di ciascuna casella
+            for (var i = 0; i < caselle.length; i++) {
+                var casella = caselle[i];
                 var numeroCasella = parseInt(casella.getAttribute('data-numero'));
                 casella.innerHTML = numeroCasella;
                 casella.innerHTML += "<div class='giocatore'></div>";
-            });
+            }
+            
+            // Posiziona i giocatori nelle caselle corrette
             for (var k = 0; k < numGiocatori; k++) {
                 var posizione = posizioneGiocatori[k];
                 if (posizione > 0 && posizione <= 100) {
@@ -272,6 +287,7 @@
                 }
             }
         }
+
 
         var modale = document.getElementById("myModal");
 
